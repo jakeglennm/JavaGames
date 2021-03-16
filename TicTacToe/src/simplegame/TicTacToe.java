@@ -32,6 +32,9 @@ public class TicTacToe {
 				Scanner scan = new Scanner(System.in);
 				System.out.println("Player " + g1.getPlayerTurn() + ", Enter the number you want to place your mark");
 				g1.PlayerTurn(scan.nextInt()); //enter the space you want to put an "X" or "O"
+				/*
+				 * check for end 
+				 */
 				if(g1.CheckEnd()) //checks if one of the players has 3 in a row
 				{
 					g1.CheckWin(); //update the winner to p1 or p2
@@ -47,6 +50,7 @@ public class TicTacToe {
 						System.out.println("Player 2 Wins!");
 						break;
 					}
+					break;
 				}
 				if(round==9)//if it reaches round 9 without a winner, it will be a draw
 				{
@@ -68,36 +72,9 @@ public class TicTacToe {
 			g1.PopulateBoard(); // fill board with numbers 1-9
 			while(true)
 			{
-				System.out.println("Round " + round);
-				System.out.println(g1.getBoard());
-				Scanner scan = new Scanner(System.in);
-				
 				/*
-				 * only prompt to user when it's his/her turn, not on computer's turn
+				 * check for end
 				 */
-				if(g1.getPlayerTurn().equals("1")) System.out.println("Player " + g1.getPlayerTurn() + ", Enter the number you want to place your mark");
-				if(g1.getPlayerTurn().equals("1")) g1.PlayerTurn(scan.nextInt());
-				
-				///////////////////////////////////////
-				/*
-				 * use an arraylist so that the size of the structure changes based on how many spots are filled
-				 * this is helpful so I can choose only the numbers that haven't been selected
-				 * this is done by changing the value in the array to 0 when the number has been picked so it won't be picked again
-				 * PROBABLY AN EASIER WAY TO DO THIS LOL, BUT THIS WORKS
-				 */
-				else
-				{
-					ArrayList<Integer> arr = new ArrayList<Integer>();
-					for(int i = 0; i<9; i++)
-					{
-						if(g1.boardAvailable[i]>0) arr.add(g1.boardAvailable[i]);
-					}
-					Random rand = new Random();
-					int randNum = rand.nextInt(arr.size());
-					g1.PlayerTurn(arr.get(randNum));
-				}
-				////////////////////////////////////////
-				
 				if(g1.CheckEnd()) //check if user or computer has 3 in a row
 				{
 					g1.CheckWin(); // update winner value to computer or user(p1)
@@ -114,7 +91,30 @@ public class TicTacToe {
 						break;
 					}
 				}
-				if(round==9) //if it reaches round 9 without a winner, it will be a draw
+				System.out.println("Round " + round);
+				System.out.println(g1.getBoard());
+				Scanner scan = new Scanner(System.in);
+				
+				/*
+				 * only prompt to user when it's his/her turn, not on computer's turn
+				 */
+				if(g1.getPlayerTurn().equals("1")) 
+				{
+					System.out.println("Player " + g1.getPlayerTurn() + ", Enter the number you want to place your mark");
+					g1.PlayerTurn(scan.nextInt());
+				}
+				///////////////////////////////////////
+				/*
+				 * (will do EasyComputerLogic() or HardComputerLogic() randomly to make computer beatable)
+				 */
+				if(!g1.CheckEnd())
+				{
+					//g1.EasyComputerLogic();
+					g1.HardComputerLogic();
+				}
+				////////////////////////////////////////
+				
+				if(round==6) //if it reaches round 9 without a winner, it will be a draw
 				{
 					System.out.println(g1.getBoard());
 					System.out.println("It's a draw.");
